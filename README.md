@@ -8,12 +8,12 @@
 ### Example of the use:
 
 ```javascript
-const dsl = require('./dsl').dsl
+const dfsm = require('./dsl').dfsm
 
 
 let items = []
 
-const automaton = dsl`
+const automaton = dfsm`
 state default CON${true ? 'NECT' : 'TROLL'}ED
 state OPENED
 state PROCESSED
