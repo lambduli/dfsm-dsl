@@ -1,4 +1,4 @@
-function dsl (strings, ...values) {
+function dfsm (strings, ...values) {
   let states = [];
   let transitions = [];
   let program = join(strings, values);
@@ -243,5 +243,5 @@ function defaultState (states) {
 }
 
 module.exports = {
-  dsl,
+  dfsm,
 }
