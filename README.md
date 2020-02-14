@@ -2,10 +2,10 @@
 
 ### States must be declared beforehand!
 
-### Transitions can have an effect and they can also determine target state by executing function.
-#### This means that you can name all actions same and differentiate between them only by arguments and by current state.
+### Transition can have an effect and it can also determine target state by executing function instead of declaring name of the state.
+#### This means that you can name all actions the same and differentiate between them only by arguments and by the current state.
 
-### Example of use:
+### Example of the use:
 
 ```javascript
 const dsl = require('./dsl').dsl
