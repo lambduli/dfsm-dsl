@@ -25,16 +25,28 @@ function actionize (transitions, automaton) {
 
   transitions.forEach(transition => {
     const {name, from, to, effect} = transition
-    actions[name] = (...args) => {
-      if (automaton.state !== from) return
+    const ac = (state, ...args) => {
+      const _from = typeof from === 'function' ? from(state) : from
+      if (state !== _from) return
 
-      const newState = typeof to === 'function' ? to(...args) : to
+      const newState = typeof to === 'function' ? to(state,...args) : to
+      const oldState = state
       automaton.state = newState
-      return typeof effect === 'function' ? effect(...args) : undefined
+
+      return typeof effect === 'function' ? effect(oldState, ...args) : undefined
+    }
+    actions[name + '_'] = name in actions ? [...actions[name + '_'], ac] : [ac]
+    actions[name] = (...args) => {
+      const st = automaton.state
+      return pickValue(actions[name + '_'].map(ac => ac(st, ...args)))
     }
   })
 
   return actions
+}
+
+function pickValue (seq) {
+  return seq.find(val => val !== undefined)
 }
 
 function parse (program) {
@@ -73,7 +85,12 @@ function parseTransitions (program) {
 
   try {
     ([name, program] = readTransitionName(program));
-    ([from, program] = readStateName(program));
+    try {
+      ([from, program] = readStateName(program));
+    }
+    catch (ex) {
+      ([from, program] = readEffect(program));
+    }
     (program = readArrow(program));
     try {
       ([to, program] = readStateName(program));
@@ -95,7 +112,6 @@ function parseTransitions (program) {
   catch (ex) {
     return [[], program]
   }
-  
 }
 
 function readTransitionName ([statement, ...program]) {
