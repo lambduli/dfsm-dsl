@@ -2,8 +2,8 @@
 
 ### States must be declared beforehand!
 
-### Transition can have an effect and it can also determine target state by executing function instead of declaring name of the state.
-#### This means that you can name all actions the same and differentiate between them only by arguments and by the current state.
+### Transitions can be effectful and it can also determine the target state by executing a function instead of declaring static name of the state.
+#### This means that you can name all the actions the same and differentiate between them only by arguments and by the current state.
 
 ### Example of the use:
 
@@ -56,7 +56,7 @@ automaton.reset('hard') // the last action
 console.log(automaton.state) // RESETTED
 ```
 
-### Each lambda function given to DFSM is called with current state and the sequence of the arguments given to the method
+### Each lambda function given to DFSM is called with the current state and the sequence of the arguments given to the method
 
 
 #### More complicated example:
@@ -86,5 +86,6 @@ As you can see you can define single transition multiple times - only condition 
 
 This means that as long as you don't create two or more transitions of the same name starting from the same state you are good to go.
 
-You can also pass function instead of the string for the `FROM` state in the transition declaration. This is helpful if you want to create states on the go and do not want to, or can't, register them at the begining of the declaration.
-If the function `from` returns string not equal to the current state - no further evaluation for this transition is going to happen.
+You can also pass a function instead of the string to the `FROM` part in the transition declaration. This is helpful if you want to create states on the go and do not want to, or can't, register them at the begining of the declaration.
+If the function `FROM` returns a 
+string not equal to the current state - no further evaluation for this transition is going to happen.
