@@ -258,6 +258,4 @@ function defaultState (states) {
   }
 }
 
-module.exports = {
-  dfsm,
-}
+module.exports = dfsm

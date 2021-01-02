@@ -1,4 +1,4 @@
-const dfsm = require('./dsl').dfsm
+const dfsm = require('./dsl')
 
 
 let items = []
@@ -46,18 +46,20 @@ automaton.reset('hard') // the last action
 console.log(automaton.state) // RESETTED
 
 
-let factorial = null
-factorial = dfsm`
+// let factorial = null
+let factorial = dfsm`
 state default INIT
 
-call
+compute
   INIT -> ${(state, num) => num === 0 ? '1' : `${num}`}
-    ${(state, num) => num === 0 ? undefined : factorial.call(num - 1)} .
+    ${(state, num) => num === 0 ? undefined : factorial.compute(num - 1)} .
 
-call
-  ${state => state === 'INIT' ? 'NO' : state} -> ${(state, num) => num === 0 ? state : `${Number(state) * num}`}
-    ${(state, num) => num === 0 ? state : factorial.call(num - 1)} .
+compute
+  ${state => state === 'INIT' ? 'NO' : state} ->
+    ${(state, num) => num === 0 ? state : `${Number(state) * num}`}
+
+    ${(state, num) => num === 0 ? state : factorial.compute(num - 1)} .
 `
 
-factorial.call(5)
+factorial.compute(5)
 console.log(factorial.state)
